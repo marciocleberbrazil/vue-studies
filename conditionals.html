@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p v-if="show">You can see me!</p>
+        <p v-else>Now you see me!</p>
+        <template v-if="show">
+            <h1>Heading</h1>
+            <p>Inside a template</p>
+        </template>
+        <p v-show="show">Do you also see me?</p>
+        <button @click="show = !show">Switch</button>
+    </div>
+    <hr>
+    <div id="lists">
+        <h3>Ingredients</h3>
+        <ul>
+            <li v-for="(item, i) in ingredients" :key="item">{{item}} ({{i}})</li>
+        </ul>
+
+        <h3>People</h3>
+        <ul>
+            <li v-for="item in people">
+                <h4 :style="{color:item.colour}">{{item.name}} {{item.age}}</h4>
+                <div v-for="(value, key, index) in item">{{key}}: {{value}}({{index}})</div>
+            </li>
+        </ul>
+    </div>
+
+
+    <script>
+        new Vue({
+            el: '#lists',
+            data: {
+                ingredients: ['meat', 'fruit', 'cookies'],
+                people: [
+                    {name: 'Marcio', age: 38, colour: 'red'},
+                    {name: 'Nurgul', age: 31, colour: 'blue'}
+                ]
+            }
+        });
+        new Vue({
+            el:'#app',
+            data: {
+                show:true
+            }
+        });
+    </script>
+</body>
+</html>

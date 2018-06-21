@@ -6,31 +6,57 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <script src="node_modules/vue/dist/vue.js"></script>
+    <style>
+        .demo {
+            width: 100px;
+            height: 100px;
+            background-color: gray;
+            display: inline-block;
+            margin: 10px;
+        }
+        .red {
+            background-color: red;
+        }
+        .green {
+            background-color: green;
+        }
+        .blue {
+            background-color: blue;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
         <h1 v-once>{{title}}</h1>
-        <input type="text" v-on:input="changeTitle">
-        <p>{{title}} <a v-bind:href="link">Havaianas</a></p>
+        <input type="text" @input="changeTitle">
+        <p>{{title}} <a :href="link">Havaianas</a></p>
         <p v-html="finishedLink"></p>
         <input type="text" v-bind:value="title">
         <hr>
         <h1>{{counter}}</h1>
-        <button v-on:click="increase(2, $event)">Click me</button>
-        <p v-on:mousemove="updateCoordinates">Coordinates: {{x}} / {{y}} - <span v-on:mousemove.stop>DEAD SPOT</span></p>
-        <input type="text" v-on:keyup.enter="alertMe">
+        <button @click="increase(2, $event)">Click me</button>
+        <p @mousemove="updateCoordinates">Coordinates: {{x}} / {{y}} - <span @mousemove.stop>DEAD SPOT</span></p>
+        <input type="text" @keyup.enter="alertMe">
         <hr>
         <input type="text" v-model="name">
         <p>{{name}}</p>
         <hr>
         <h1>Computed</h1>
-        <button v-on:click="counter++">Increase</button>
-        <button v-on:click="counter--">Decrease</button>
-        <button v-on:click="secondCounter++">Increase Second</button>
+        <button @click="counter++">Increase</button>
+        <button @click="counter--">Decrease</button>
+        <button @click="secondCounter++">Increase Second</button>
         <p>Counter: {{ counter }} | {{ secondCounter }}</p>
         <p>Result: {{ result() }} | {{ output }}</p>
     </div>
 
+    <hr>
+    <div id="appCss">
+        <div class="demo" :class="{'red': attachRed}" @click="attachRed = !attachRed"></div>
+        <div class="demo" :style="{'background-color': colour}"></div>
+        <div class="demo" :class="colour"></div>
+        <div class="demo" :class="divClasses"></div>
+        <input type="text" v-model="colour">
+    </div>
     
     <script>
         new Vue({
@@ -77,6 +103,21 @@
                 result: function() {
                     console.log('Method');
                     return this.counter > 5 ? 'Greater 5' : 'Smaller than 5';
+                }
+            }
+        });
+        new Vue({
+            el: '#appCss',
+            data: {
+                attachRed:false,
+                colour: 'red'
+            },
+            computed: {
+                divClasses: function() {
+                    return {
+                        red: this.attachRed,
+                        green: !this.attachRed
+                    }
                 }
             }
         });
